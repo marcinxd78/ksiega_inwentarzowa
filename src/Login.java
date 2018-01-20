@@ -14,7 +14,7 @@ import javax.swing.*;
  *
  * @author Marcin
  */
-public class Login extends javax.swing.JFrame {
+public  class Login extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
@@ -278,7 +278,7 @@ public class Login extends javax.swing.JFrame {
     private java.awt.Label label2;
     private java.awt.Label label3;
     private java.awt.Label label4;
-    private javax.swing.JTextField login;
+    public static javax.swing.JTextField login;
     private javax.swing.JButton loguj_btn;
     // End of variables declaration//GEN-END:variables
 

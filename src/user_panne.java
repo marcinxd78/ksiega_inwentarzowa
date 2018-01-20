@@ -6,15 +6,33 @@
 
 /**
  *
- * @author Marcin
+ * @author Mateusz
+ */
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+       
+import java.sql.*;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+import javax.swing.*;
+
+/**
+ *
+ * @author Mateusz
  */
 public class user_panne extends javax.swing.JFrame {
 
+    Connection conne=null;
+    String id_uzyt;
     /**
      * Creates new form user_panne
      */
     public user_panne() {
         initComponents();
+        conne= sqlite.dbConnector();
     }
 
     /**
@@ -26,31 +44,289 @@ public class user_panne extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        notifications = new javax.swing.JDialog();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox3 = new javax.swing.JCheckBox();
+        User_Powiad1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        User_Label0 = new javax.swing.JLabel();
+        User_Label1 = new javax.swing.JLabel();
+        User_Label2 = new javax.swing.JLabel();
+        User_Imie = new javax.swing.JTextField();
+        User_Nazwisko = new javax.swing.JTextField();
+        User_Label3 = new javax.swing.JLabel();
+        User_WylogujBtn = new javax.swing.JButton();
+        User_Wydzial = new javax.swing.JTextField();
+        User_Label4 = new javax.swing.JLabel();
+        User_Label5 = new javax.swing.JLabel();
+        User_NrEwid = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        User_Powiad = new javax.swing.JButton();
+
+        notifications.setMinimumSize(new java.awt.Dimension(400, 200));
+
+        jCheckBox1.setText("Powiadom mnie, gdy przypisano do mnie nowy inwentarz");
+
+        jCheckBox2.setText("Powiadom mnie, gdy posiadany inwentarz został edytowany");
+
+        jCheckBox3.setText("Powiadom mnie, gdy posiadany inwentarz został usunięty");
+
+        User_Powiad1.setText("OK");
+        User_Powiad1.setToolTipText("");
+        User_Powiad1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                User_Powiad1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout notificationsLayout = new javax.swing.GroupLayout(notifications.getContentPane());
+        notifications.getContentPane().setLayout(notificationsLayout);
+        notificationsLayout.setHorizontalGroup(
+            notificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(notificationsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(notificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(User_Powiad1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox2)
+                    .addComponent(jCheckBox3))
+                .addContainerGap(75, Short.MAX_VALUE))
+        );
+        notificationsLayout.setVerticalGroup(
+            notificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(notificationsLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(User_Powiad1)
+                .addContainerGap(175, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setForeground(new java.awt.Color(153, 255, 204));
+        setPreferredSize(new java.awt.Dimension(950, 600));
+        setResizable(false);
+        setSize(new java.awt.Dimension(950, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
-        jLabel1.setText("user panel");
+        jButton2.setText("Pokaż mój inwentarz");
+        jButton2.setToolTipText("");
+        jButton2.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        User_Label0.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        User_Label0.setText("Zalogowany użytkownik");
+        User_Label0.setToolTipText("");
+
+        User_Label1.setText("Imię:");
+        User_Label1.setToolTipText("");
+
+        User_Label2.setText("Nazwisko:");
+        User_Label2.setToolTipText("");
+
+        User_Imie.setEditable(false);
+
+        User_Nazwisko.setEditable(false);
+
+        User_Label3.setText("Wydział:");
+        User_Label3.setToolTipText("");
+
+        User_WylogujBtn.setText("Wyloguj");
+        User_WylogujBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                User_WylogujBtnActionPerformed(evt);
+            }
+        });
+
+        User_Wydzial.setEditable(false);
+
+        User_Label4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        User_Label4.setText("Wyszukaj przedmiot");
+        User_Label4.setToolTipText("");
+
+        User_Label5.setText("Numer ewidencyjny:");
+        User_Label5.setToolTipText("");
+
+        jButton3.setText("Wyszukaj przedmiot");
+        jButton3.setToolTipText("");
+        jButton3.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        User_Powiad.setText("Powiadomienia");
+        User_Powiad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                User_PowiadActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(101, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(122, 122, 122))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(User_Label4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(User_Wydzial)
+                    .addComponent(User_Label2)
+                    .addComponent(User_Label1)
+                    .addComponent(User_Imie)
+                    .addComponent(User_Label0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(User_Nazwisko)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(User_Label3)
+                    .addComponent(User_WylogujBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(User_Label5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(User_NrEwid)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(User_Powiad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 803, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(User_Label0)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(User_Label1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(User_Imie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(User_Label2)
+                        .addGap(4, 4, 4)
+                        .addComponent(User_Nazwisko, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(User_Label3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(User_Wydzial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(User_Label4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(User_Label5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(User_NrEwid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(User_Powiad)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(User_WylogujBtn))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //wyświetlenie przypisanego inwentarza
+        try  {
+            String query="SELECT * from przedmioty WHERE odpowiedzialny="+id_uzyt+"";
+            PreparedStatement pst=conne.prepareStatement(query);
+            
+            ResultSet rs=pst.executeQuery();
+            jTable2.setModel(DbUtils.resultSetToTableModel(rs));
+
+        }catch(Exception e){
+            System.out.println("Błąd połączenia");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // pobieranie loginu z okna ,,Login"   
+        String login = (Login.login.getText());
+        //test.setText(login);
+        //pobieranie id zalogowanego użytkownika
+        try{
+        String query="SELECT id_user,imie,nazwisko,wydzial from users WHERE login='"+login+"'";
+            PreparedStatement pst=conne.prepareStatement(query);
+            ResultSet rs=pst.executeQuery();
+            while (rs.next()){
+            id_uzyt=rs.getString(1);
+            User_Imie.setText(rs.getString("imie"));
+            User_Nazwisko.setText(rs.getString("nazwisko"));
+            User_Wydzial.setText(rs.getString("wydzial"));
+            }
+            pst.close();
+            //test2.setText(id_uzyt);
+            
+            }catch(Exception e){
+            System.out.println("Błąd połączenia");
+        }
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void User_WylogujBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_User_WylogujBtnActionPerformed
+//powrót do okna logowania
+        new Login().setVisible(true);
+        this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_User_WylogujBtnActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // wyszukiwanie przedmiotu
+        try  {
+
+        String query="SELECT * from przedmioty WHERE id_przedmioty=?";
+        PreparedStatement pst=conne.prepareStatement(query);
+        pst.setString(1,User_NrEwid.getText());
+        
+        ResultSet rs=pst.executeQuery();
+        jTable2.setModel(DbUtils.resultSetToTableModel(rs));
+        }catch(Exception e){
+        System.out.println("Błąd połączenia");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void User_PowiadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_User_PowiadActionPerformed
+        // otwarcie okna powiadomien
+             notifications.setVisible(true);
+        
+            
+     
+    }//GEN-LAST:event_User_PowiadActionPerformed
+
+    private void User_Powiad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_User_Powiad1ActionPerformed
+        // TODO add your handling code here:
+            notifications.dispose();
+    }//GEN-LAST:event_User_Powiad1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -88,6 +364,26 @@ public class user_panne extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField User_Imie;
+    private javax.swing.JLabel User_Label0;
+    private javax.swing.JLabel User_Label1;
+    private javax.swing.JLabel User_Label2;
+    private javax.swing.JLabel User_Label3;
+    private javax.swing.JLabel User_Label4;
+    private javax.swing.JLabel User_Label5;
+    private javax.swing.JTextField User_Nazwisko;
+    private javax.swing.JTextField User_NrEwid;
+    private javax.swing.JButton User_Powiad;
+    private javax.swing.JButton User_Powiad1;
+    private javax.swing.JTextField User_Wydzial;
+    private javax.swing.JButton User_WylogujBtn;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JDialog notifications;
     // End of variables declaration//GEN-END:variables
 }
